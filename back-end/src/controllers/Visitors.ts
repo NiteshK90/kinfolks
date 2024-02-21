@@ -1,6 +1,22 @@
 import { Request, Response } from "express";
 import Visitors from "../models/Visitors";
 
+export const addNewVisitor = async (req: Request, res: Response) => {
+  try {
+    const data = req.body;
+    const visitor = new Visitors({ ...data });
+    const savedData = await visitor.save();
+    if (!savedData) {
+      res.status(500).send({ error: "Unable to add visitor" });
+    }
+    res
+      .status(201)
+      .send({ msg: "Visitor added successfully", data: savedData });
+  } catch (error: any) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
 export const getVisitors = async (_req: Request, res: Response) => {
   try {
     const visitors = await Visitors.find();

@@ -1,7 +1,13 @@
 import express from "express";
-import { getSingleVisitor, getVisitors } from "../controllers/Visitors";
+import {
+  addNewVisitor,
+  getSingleVisitor,
+  getVisitors,
+} from "../controllers/Visitors";
 
 const router = express.Router();
+
+router.post("/", addNewVisitor);
 
 router.get("/", getVisitors);
 
