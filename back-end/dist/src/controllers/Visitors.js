@@ -12,8 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleVisitor = exports.getVisitors = void 0;
+exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
 const Visitors_1 = __importDefault(require("../models/Visitors"));
+const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = req.body;
+        const visitor = new Visitors_1.default(Object.assign({}, data));
+        const savedData = yield visitor.save();
+        if (!savedData) {
+            res.status(500).send({ error: "Unable to add visitor" });
+        }
+        res
+            .status(201)
+            .send({ msg: "Visitor added successfully", data: savedData });
+    }
+    catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+});
+exports.addNewVisitor = addNewVisitor;
 const getVisitors = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const visitors = yield Visitors_1.default.find();
