@@ -1,10 +1,5 @@
-const IndexPage = () => (
-  <html>
-    <head>Page</head>
-    <body>
-      <div>Hello world</div>
-    </body>
-  </html>
-);
+import { NextPage } from "next";
 
-export default IndexPage;
+const Home: NextPage = () => <div>Hello world</div>;
+
+export default Home;
