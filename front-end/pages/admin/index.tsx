@@ -1,10 +1,12 @@
 import { NextPage } from "next";
-import PageWrapper from "../../components/admin/PageWrapper";
+import { PageWrapper } from "../../components/admin/common/PageWrapper";
 
 const Admin: NextPage = () => {
   return (
-    <PageWrapper>
-      <div></div>
+    <PageWrapper title="Admin">
+      <div className="p-10">
+        <h2>Admin Home Page</h2>
+      </div>
     </PageWrapper>
   );
 };
