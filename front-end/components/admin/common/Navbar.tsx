@@ -4,7 +4,7 @@ export const Navbar = () => {
   return (
     <div className="px-4 pt-4 border-r">
       <div className="pb-4">
-        <Link href="admin/inquiries">Inquiries</Link>
+        <Link href="admin/visitors">Visitors</Link>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export const PageWrapper = ({
       </header>
       <div className="flex items-stretch h-[calc(100%-57px)]">
         <Navbar />
-        <div>{children}</div>
+        <div className="w-full">{children}</div>
       </div>
     </div>
   );
