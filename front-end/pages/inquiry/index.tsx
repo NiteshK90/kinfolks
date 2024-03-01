@@ -3,10 +3,18 @@ import { useForm } from "react-hook-form";
 import { PlacesOptions } from "./constants";
 import { useCreateVisitor } from "../../hooks/visitors.hooks";
 import { Visitor } from "../../services/visitors.service/types";
+import { Button } from "../../components/common/form-elements/Button";
+import { ButtonTypes } from "../../components/common/form-elements/types";
 
 const Inquiry: NextPage = () => {
   const { mutate: createVisitor } = useCreateVisitor();
-  const { register, handleSubmit, reset } = useForm<Visitor>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty, isValid, isLoading },
+  } = useForm<Visitor>({
+    mode: "all",
     defaultValues: {
       name: "",
       email: "",
@@ -39,28 +47,36 @@ const Inquiry: NextPage = () => {
               <input
                 type="text"
                 className="border rounded p-1 text-sm"
-                {...register("name")}
+                {...register("name", {
+                  required: true,
+                })}
               />
             </div>
             <div className="pb-4">
               <input
                 type="email"
                 className="border rounded p-1 text-sm"
-                {...register("email")}
+                {...register("email", {
+                  required: true,
+                })}
               />
             </div>
             <div className="pb-4">
               <input
                 type="number"
                 className="border rounded p-1 text-sm"
-                {...register("mobile")}
+                {...register("mobile", {
+                  required: true,
+                })}
               />
             </div>
             <div className="pb-4">
               <select
                 placeholder="Select places"
                 className="border rounded p-1 text-sm"
-                {...register("places")}
+                {...register("places", {
+                  required: true,
+                })}
                 multiple
               >
                 {PlacesOptions.map((option, index) => (
@@ -77,12 +93,22 @@ const Inquiry: NextPage = () => {
             <div className="pb-4">
               <input
                 className="border rounded p-1 text-sm"
-                {...register("whenToVisit")}
+                {...register("whenToVisit", {
+                  required: true,
+                })}
               />
             </div>
             <div className="flex gap-2 items-center">
-              <button type="submit">Submit</button>
-              <button type="reset">Reset</button>
+              <Button
+                type={ButtonTypes.Submit}
+                buttonText="Submit"
+                disabled={!isDirty || !isValid}
+              />
+              <Button
+                type={ButtonTypes.Reset}
+                buttonText="Reset"
+                disabled={!isDirty}
+              />
             </div>
           </form>
         </div>
