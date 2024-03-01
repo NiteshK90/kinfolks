@@ -1,28 +1,31 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { PlacesOptions } from "./constants";
-
-interface InquiryFormType {
-  name: string;
-  email: string;
-  contact: number;
-  places: string[];
-  whenToVisit: string;
-}
+import { useCreateVisitor } from "../../hooks/visitors.hooks";
+import { Visitor } from "../../services/visitors.service/types";
 
 const Inquiry: NextPage = () => {
-  const { register, handleSubmit } = useForm<InquiryFormType>({
+  const { mutate: createVisitor } = useCreateVisitor();
+  const { register, handleSubmit, reset } = useForm<Visitor>({
     defaultValues: {
       name: "",
       email: "",
-      contact: 0,
+      mobile: 0,
       places: [],
       whenToVisit: "",
     },
   });
 
-  const onSubmit = (data: InquiryFormType) => {
-    console.log(data);
+  const onSubmit = async (data: Visitor) => {
+    await createVisitor(data, {
+      onSuccess: () => {
+        console.log("Your details are stored successfully");
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
+    reset();
   };
   return (
     <div>
@@ -31,7 +34,7 @@ const Inquiry: NextPage = () => {
       </header>
       <div className="flex justify-end">
         <div className="w-1/2">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} onReset={() => reset()}>
             <div className="pb-4">
               <input
                 type="text"
@@ -50,7 +53,7 @@ const Inquiry: NextPage = () => {
               <input
                 type="number"
                 className="border rounded p-1 text-sm"
-                {...register("contact")}
+                {...register("mobile")}
               />
             </div>
             <div className="pb-4">

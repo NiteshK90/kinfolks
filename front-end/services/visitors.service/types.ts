@@ -1,8 +1,9 @@
 export interface Visitor {
-  id: string;
+  id?: string;
   name: string;
   email: string;
-  mobile: string;
+  mobile: number;
   places: string[];
   whenToVisit: string;
+  isValidVisitor?: boolean;
 }
