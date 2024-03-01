@@ -14,7 +14,7 @@ const Inquiry: NextPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { isDirty, isValid, isLoading },
+    formState: { isDirty, isValid, isLoading, errors },
   } = useForm<Visitor>({
     mode: "all",
     defaultValues: {
