@@ -5,6 +5,8 @@ import { useCreateVisitor } from "../../hooks/visitors.hooks";
 import { Visitor } from "../../services/visitors.service/types";
 import { Button } from "../../components/common/form-elements/Button";
 import { ButtonTypes } from "../../components/common/form-elements/types";
+import { Input } from "../../components/common/form-elements/Input";
+import { Select } from "../../components/common/form-elements/Select";
 
 const Inquiry: NextPage = () => {
   const { mutate: createVisitor } = useCreateVisitor();
@@ -41,64 +43,51 @@ const Inquiry: NextPage = () => {
         <h1>Inquiry Page</h1>
       </header>
       <div className="flex justify-end">
-        <div className="w-1/2">
+        <div className="w-1/4 px-5">
           <form onSubmit={handleSubmit(onSubmit)} onReset={() => reset()}>
-            <div className="pb-4">
-              <input
+            <div className="pb-10">
+              <Input
                 type="text"
-                className="border rounded p-1 text-sm"
                 {...register("name", {
                   required: true,
                 })}
               />
             </div>
-            <div className="pb-4">
-              <input
+            <div className="pb-10">
+              <Input
                 type="email"
-                className="border rounded p-1 text-sm"
                 {...register("email", {
                   required: true,
                 })}
               />
             </div>
-            <div className="pb-4">
-              <input
+            <div className="pb-10">
+              <Input
                 type="number"
-                className="border rounded p-1 text-sm"
                 {...register("mobile", {
                   required: true,
                 })}
               />
             </div>
-            <div className="pb-4">
-              <select
+            <div className="pb-10">
+              <Select
                 placeholder="Select places"
-                className="border rounded p-1 text-sm"
-                {...register("places", {
+                options={PlacesOptions || []}
+                register={register("places", {
                   required: true,
                 })}
                 multiple
-              >
-                {PlacesOptions.map((option, index) => (
-                  <option
-                    key={`place-option-${index}`}
-                    value={option}
-                    className="p-1 text-sm"
-                  >
-                    {option}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
-            <div className="pb-4">
-              <input
-                className="border rounded p-1 text-sm"
+            <div className="pb-10">
+              <Input
+                type="text"
                 {...register("whenToVisit", {
                   required: true,
                 })}
               />
             </div>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 justify-between items-center">
               <Button
                 type={ButtonTypes.Submit}
                 buttonText="Submit"
