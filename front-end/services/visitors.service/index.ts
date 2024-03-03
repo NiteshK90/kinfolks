@@ -10,6 +10,11 @@ class VisitorsService {
     const response = await apiInstance.post("/visitors", data);
     return response;
   }
+
+  async updateVisitorValidity(id: string, data: Visitor) {
+    const response = await apiInstance.patch(`/visitors/${id}`, data);
+    return response;
+  }
 }
 
 export default new VisitorsService();

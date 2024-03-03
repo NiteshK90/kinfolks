@@ -41,3 +41,20 @@ export const getSingleVisitor = async (req: Request, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const updateValidity = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const visitor = new Visitors({ ...data, _id: id });
+    const updateData = visitor.save();
+    if (!updateData) {
+      res.status(500).send({ error: "Unable to update visitor" });
+    }
+    res
+      .status(201)
+      .send({ msg: "Visitor updated successfully", data: updateData });
+  } catch (error) {
+    res.status(500);
+  }
+};

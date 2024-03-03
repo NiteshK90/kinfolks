@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
+exports.updateValidity = exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
 const Visitors_1 = __importDefault(require("../models/Visitors"));
 const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -58,3 +58,21 @@ const getSingleVisitor = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getSingleVisitor = getSingleVisitor;
+const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        const visitor = new Visitors_1.default(Object.assign(Object.assign({}, data), { _id: id }));
+        const updateData = visitor.save();
+        if (!updateData) {
+            res.status(500).send({ error: "Unable to update visitor" });
+        }
+        res
+            .status(201)
+            .send({ msg: "Visitor updated successfully", data: updateData });
+    }
+    catch (error) {
+        res.status(500);
+    }
+});
+exports.updateValidity = updateValidity;

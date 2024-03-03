@@ -13,3 +13,9 @@ export const useCreateVisitor = () => {
     visitorsService.createVisitor(values)
   );
 };
+
+export const useUpdateVisitorValidity = () => {
+  return useMutation(({ id, values }: { id: string; values: Visitor }) =>
+    visitorsService.updateVisitorValidity(id, values)
+  );
+};

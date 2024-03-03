@@ -1,12 +1,50 @@
-import { useGetVisitors } from "../../../hooks/visitors.hooks";
+import {
+  useGetVisitors,
+  useUpdateVisitorValidity,
+} from "../../../hooks/visitors.hooks";
+import { Visitor } from "../../../services/visitors.service/types";
 
 export const List = () => {
   const { data, isLoading, isError } = useGetVisitors();
+  const { mutate: updateVisitorValidity, isLoading: isValidationLoading } =
+    useUpdateVisitorValidity();
+
+  const handleChange = (item: Visitor, checked: boolean) => {
+    updateVisitorValidity(
+      {
+        id: item.id,
+        values: {
+          name: item.name,
+          email: item.email,
+          mobile: item.mobile,
+          places: item.places,
+          whenToVisit: item.whenToVisit,
+          isValidVisitor: checked,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          console.log(res);
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      }
+    );
+  };
   if (isLoading) {
-    return <div>Data is loading</div>;
+    return (
+      <div className="text-center ">
+        <h3>Data is loading</h3>
+      </div>
+    );
   }
   if (isError) {
-    return <div>Error occurred</div>;
+    return (
+      <div className="text-center p-4">
+        <h3>Error occurred</h3>
+      </div>
+    );
   }
   return (
     <div>
@@ -33,7 +71,14 @@ export const List = () => {
               <div className="p-2">{item.mobile}</div>
               <div className="p-2">{item.email}</div>
               <div className="p-2">{item.whenToVisit}</div>
-              <div className="p-2"></div>
+              <div className="p-2">
+                <input
+                  type="checkbox"
+                  checked={!!item.isValidVisitor}
+                  onChange={(event) => handleChange(item, event.target.checked)}
+                  disabled={isValidationLoading}
+                />
+              </div>
             </div>
           ))}
         </div>
