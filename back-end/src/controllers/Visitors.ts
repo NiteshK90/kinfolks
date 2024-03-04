@@ -46,8 +46,7 @@ export const updateValidity = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const data = req.body;
-    const visitor = new Visitors({ ...data, _id: id });
-    const updateData = visitor.save();
+    const updateData = Visitors.findByIdAndUpdate(id, data, { new: true });
     if (!updateData) {
       res.status(500).send({ error: "Unable to update visitor" });
     }

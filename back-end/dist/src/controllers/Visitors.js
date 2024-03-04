@@ -62,8 +62,7 @@ const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const id = req.params.id;
         const data = req.body;
-        const visitor = new Visitors_1.default(Object.assign(Object.assign({}, data), { _id: id }));
-        const updateData = visitor.save();
+        const updateData = Visitors_1.default.findByIdAndUpdate(id, data, { new: true });
         if (!updateData) {
             res.status(500).send({ error: "Unable to update visitor" });
         }
