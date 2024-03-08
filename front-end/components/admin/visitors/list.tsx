@@ -2,10 +2,12 @@ import {
   useGetVisitors,
   useUpdateVisitorValidity,
 } from "../../../hooks/visitors.hooks";
+import { useNotification } from "../../../providers/common/NotificationProvider";
 import { Visitor } from "../../../services/visitors.service/types";
 
 export const List = () => {
   const { data, isLoading, isError } = useGetVisitors();
+  const { addNotification } = useNotification();
   const { mutate: updateVisitorValidity, isLoading: isValidationLoading } =
     useUpdateVisitorValidity();
 

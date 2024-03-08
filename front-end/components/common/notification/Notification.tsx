@@ -11,22 +11,22 @@ const getColors = (type: NotificationType) => {
   switch (type) {
     case NotificationType.Success:
       return {
-        icon: <CheckCircle size={16} />,
-        color: "color-success-text",
+        icon: <CheckCircle size={16} className="text-success-text" />,
+        color: "text-success-text",
         bgColor: "bg-success-bg",
       };
 
     case NotificationType.Warning:
       return {
-        icon: <WarningCircle size={16} />,
-        color: "color-warning-text",
+        icon: <WarningCircle size={16} className="text-warning-text" />,
+        color: "text-warning-text",
         bgColor: "bg-warning-bg",
       };
 
     case NotificationType.Danger:
       return {
-        icon: <Warning size={16} />,
-        color: "color-danger-text",
+        icon: <Warning size={16} className="text-danger-text" />,
+        color: "text-danger-text",
         bgColor: "bg-danger-bg",
       };
 
