@@ -59,19 +59,17 @@ const getSingleVisitor = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getSingleVisitor = getSingleVisitor;
 const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { isValidVisitor } = req.body;
     try {
-        const id = req.params.id;
-        const data = req.body;
-        const updateData = Visitors_1.default.findByIdAndUpdate(id, data, { new: true });
-        if (!updateData) {
-            res.status(500).send({ error: "Unable to update visitor" });
+        const updateUser = yield Visitors_1.default.findByIdAndUpdate(id, { isValidVisitor }, { new: true });
+        if (!updateUser) {
+            return res.status(404).json({ message: "User not found" });
         }
-        res
-            .status(201)
-            .send({ msg: "Visitor updated successfully", data: updateData });
+        res.json(updateUser);
     }
     catch (error) {
-        res.status(500);
+        res.status(500).json({ message: "Error ocurred" });
     }
 });
 exports.updateValidity = updateValidity;

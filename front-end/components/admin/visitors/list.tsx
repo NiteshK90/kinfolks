@@ -1,9 +1,11 @@
+import { AxiosError } from "axios";
 import {
   useGetVisitors,
   useUpdateVisitorValidity,
 } from "../../../hooks/visitors.hooks";
 import { useNotification } from "../../../providers/common/NotificationProvider";
 import { Visitor } from "../../../services/visitors.service/types";
+import { NotificationType } from "../../common/notification/Notification";
 
 export const List = () => {
   const { data, isLoading, isError } = useGetVisitors();
@@ -16,20 +18,21 @@ export const List = () => {
       {
         id: item.id,
         values: {
-          name: item.name,
-          email: item.email,
-          mobile: item.mobile,
-          places: item.places,
-          whenToVisit: item.whenToVisit,
-          isValidVisitor: checked,
+          isValidUser: checked,
         },
       },
       {
         onSuccess: (res) => {
-          console.log(res);
+          addNotification({
+            content: "Visitor's validity updated",
+            type: NotificationType.Success,
+          });
         },
-        onError: (err) => {
-          console.log(err);
+        onError: (err: AxiosError<{ message: string }>) => {
+          addNotification({
+            content: err.response.data.message,
+            type: NotificationType.Danger,
+          });
         },
       }
     );

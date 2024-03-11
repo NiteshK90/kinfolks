@@ -43,17 +43,20 @@ export const getSingleVisitor = async (req: Request, res: Response) => {
 };
 
 export const updateValidity = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { isValidVisitor } = req.body;
+
   try {
-    const id = req.params.id;
-    const data = req.body;
-    const updateData = Visitors.findByIdAndUpdate(id, data, { new: true });
-    if (!updateData) {
-      res.status(500).send({ error: "Unable to update visitor" });
+    const updateUser = await Visitors.findByIdAndUpdate(
+      id,
+      { isValidVisitor },
+      { new: true }
+    );
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
     }
-    res
-      .status(201)
-      .send({ msg: "Visitor updated successfully", data: updateData });
+    res.json(updateUser);
   } catch (error) {
-    res.status(500);
+    res.status(500).json({ message: "Error ocurred" });
   }
 };
