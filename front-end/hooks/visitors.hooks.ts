@@ -16,7 +16,7 @@ export const useCreateVisitor = () => {
 
 export const useUpdateVisitorValidity = () => {
   return useMutation(
-    ({ id, values }: { id: string; values: { isValidUser: boolean } }) =>
+    ({ id, values }: { id: string; values: { isValidVisitor: boolean } }) =>
       visitorsService.updateVisitorValidity(id, values)
   );
 };

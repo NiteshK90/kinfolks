@@ -48,7 +48,7 @@ export const updateValidity = async (req: Request, res: Response) => {
 
   try {
     const updateUser = await Visitors.findByIdAndUpdate(
-      id,
+      { _id: id },
       { isValidVisitor },
       { new: true }
     );

@@ -62,7 +62,7 @@ const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { id } = req.params;
     const { isValidVisitor } = req.body;
     try {
-        const updateUser = yield Visitors_1.default.findByIdAndUpdate(id, { isValidVisitor }, { new: true });
+        const updateUser = yield Visitors_1.default.findByIdAndUpdate({ _id: id }, { isValidVisitor }, { new: true });
         if (!updateUser) {
             return res.status(404).json({ message: "User not found" });
         }

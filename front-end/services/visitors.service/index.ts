@@ -11,7 +11,7 @@ class VisitorsService {
     return response;
   }
 
-  async updateVisitorValidity(id: string, values: { isValidUser: boolean }) {
+  async updateVisitorValidity(id: string, values: { isValidVisitor: boolean }) {
     const response = await apiInstance.patch(`/visitors/${id}`, values);
     return response;
   }

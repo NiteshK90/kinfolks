@@ -16,9 +16,9 @@ export const List = () => {
   const handleChange = (item: Visitor, checked: boolean) => {
     updateVisitorValidity(
       {
-        id: item.id,
+        id: item._id,
         values: {
-          isValidUser: checked,
+          isValidVisitor: checked,
         },
       },
       {

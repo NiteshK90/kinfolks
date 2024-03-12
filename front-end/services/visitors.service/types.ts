@@ -1,5 +1,5 @@
 export interface Visitor {
-  id?: string;
+  _id?: string;
   name: string;
   email: string;
   mobile: number;
