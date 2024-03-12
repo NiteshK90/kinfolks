@@ -7,8 +7,11 @@ import { Button } from "../../components/common/form-elements/Button";
 import { ButtonTypes } from "../../components/common/form-elements/types";
 import { Input } from "../../components/common/form-elements/Input";
 import { Select } from "../../components/common/form-elements/Select";
+import { useNotification } from "../../providers/common/NotificationProvider";
+import { NotificationType } from "../../components/common/notification/Notification";
 
 const Inquiry: NextPage = () => {
+  const { addNotification } = useNotification();
   const { mutate: createVisitor } = useCreateVisitor();
   const {
     register,
@@ -29,10 +32,16 @@ const Inquiry: NextPage = () => {
   const onSubmit = async (data: Visitor) => {
     await createVisitor(data, {
       onSuccess: () => {
-        console.log("Your details are stored successfully");
+        addNotification({
+          content: "Your details are stored successfully",
+          type: NotificationType.Success,
+        });
       },
-      onError: (err) => {
-        console.log(err);
+      onError: (err: any) => {
+        addNotification({
+          content: err.message,
+          type: NotificationType.Danger,
+        });
       },
     });
     reset();
@@ -48,6 +57,7 @@ const Inquiry: NextPage = () => {
             <div className="pb-10">
               <Input
                 type="text"
+                placeholder="Name"
                 {...register("name", {
                   required: true,
                 })}
@@ -56,6 +66,7 @@ const Inquiry: NextPage = () => {
             <div className="pb-10">
               <Input
                 type="email"
+                placeholder="Email"
                 {...register("email", {
                   required: true,
                 })}
@@ -64,6 +75,7 @@ const Inquiry: NextPage = () => {
             <div className="pb-10">
               <Input
                 type="number"
+                placeholder="Mobile Number"
                 {...register("mobile", {
                   required: true,
                 })}
@@ -82,6 +94,7 @@ const Inquiry: NextPage = () => {
             <div className="pb-10">
               <Input
                 type="text"
+                placeholder="When to Visit"
                 {...register("whenToVisit", {
                   required: true,
                 })}
