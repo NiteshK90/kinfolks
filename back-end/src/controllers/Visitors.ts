@@ -41,3 +41,22 @@ export const getSingleVisitor = async (req: Request, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const updateValidity = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { isValidVisitor } = req.body;
+
+  try {
+    const updateUser = await Visitors.findByIdAndUpdate(
+      { _id: id },
+      { isValidVisitor },
+      { new: true }
+    );
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(updateUser);
+  } catch (error) {
+    res.status(500).json({ message: "Error ocurred" });
+  }
+};

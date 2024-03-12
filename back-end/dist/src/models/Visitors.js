@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const visitorsSchema = new mongoose_1.default.Schema({
+    _id: { type: String },
     name: { type: String },
     email: { type: String },
     mobile: { type: Number },
+    isValidVisitor: { type: Boolean },
     places: { type: [String] },
     whenToVisit: { type: String },
 });

@@ -9,4 +9,5 @@ const router = express_1.default.Router();
 router.post("/", Visitors_1.addNewVisitor);
 router.get("/", Visitors_1.getVisitors);
 router.get("/:id", Visitors_1.getSingleVisitor);
+router.patch("/:id", Visitors_1.updateValidity);
 exports.default = router;

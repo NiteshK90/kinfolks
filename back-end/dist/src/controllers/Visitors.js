@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
+exports.updateValidity = exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
 const Visitors_1 = __importDefault(require("../models/Visitors"));
 const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -58,3 +58,18 @@ const getSingleVisitor = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getSingleVisitor = getSingleVisitor;
+const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { isValidVisitor } = req.body;
+    try {
+        const updateUser = yield Visitors_1.default.findByIdAndUpdate({ _id: id }, { isValidVisitor }, { new: true });
+        if (!updateUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(updateUser);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error ocurred" });
+    }
+});
+exports.updateValidity = updateValidity;
