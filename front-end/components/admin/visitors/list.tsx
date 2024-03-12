@@ -8,7 +8,7 @@ import { Visitor } from "../../../services/visitors.service/types";
 import { NotificationType } from "../../common/notification/Notification";
 
 export const List = () => {
-  const { data, isLoading, isError } = useGetVisitors();
+  const { data, isLoading, isError, refetch } = useGetVisitors();
   const { addNotification } = useNotification();
   const { mutate: updateVisitorValidity, isLoading: isValidationLoading } =
     useUpdateVisitorValidity();
@@ -27,6 +27,7 @@ export const List = () => {
             content: "Visitor's validity updated",
             type: NotificationType.Success,
           });
+          refetch();
         },
         onError: (err: AxiosError<{ message: string }>) => {
           addNotification({
