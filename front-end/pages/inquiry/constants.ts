@@ -1,6 +1,7 @@
+import { GroupBase, OptionsOrGroups } from "react-select";
 import { Option } from "../../components/common/form-elements/types";
 
-export const PlacesOptions: Option[] = [
+export const PlacesOptions: OptionsOrGroups<Option, GroupBase<Option>> = [
   {
     label: "Karnataka",
     value: "Karnataka",

@@ -1,14 +1,14 @@
 import { NextPage } from "next";
-import { useForm } from "react-hook-form";
-import { PlacesOptions } from "./constants";
+import { Controller, useForm } from "react-hook-form";
 import { useCreateVisitor } from "../../hooks/visitors.hooks";
-import { Visitor } from "../../services/visitors.service/types";
 import { Button } from "../../components/common/form-elements/Button";
 import { ButtonTypes } from "../../components/common/form-elements/types";
 import { Input } from "../../components/common/form-elements/Input";
-import { Select } from "../../components/common/form-elements/Select";
 import { useNotification } from "../../providers/common/NotificationProvider";
 import { NotificationType } from "../../components/common/notification/Notification";
+import Select from "react-select";
+import { PlacesOptions } from "./constants";
+import { CreateVisitorProps } from "./type";
 
 const Inquiry: NextPage = () => {
   const { addNotification } = useNotification();
@@ -16,9 +16,10 @@ const Inquiry: NextPage = () => {
   const {
     register,
     handleSubmit,
+    control,
     reset,
-    formState: { isDirty, isValid, isLoading, errors },
-  } = useForm<Visitor>({
+    formState: { isDirty, isValid, errors },
+  } = useForm<CreateVisitorProps>({
     mode: "all",
     defaultValues: {
       name: "",
@@ -29,8 +30,10 @@ const Inquiry: NextPage = () => {
     },
   });
 
-  const onSubmit = async (data: Visitor) => {
-    await createVisitor(data, {
+  const onSubmit = async (data: CreateVisitorProps) => {
+    const places = data.places?.map(({ value }) => value) || [];
+    const newData = { ...data, places: places };
+    await createVisitor(newData, {
       onSuccess: () => {
         addNotification({
           content: "Your details are stored successfully",
@@ -82,13 +85,12 @@ const Inquiry: NextPage = () => {
               />
             </div>
             <div className="pb-10">
-              <Select
-                placeholder="Select places"
-                options={PlacesOptions || []}
-                register={register("places", {
-                  required: true,
-                })}
-                multiple
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <Select {...field} options={PlacesOptions} isMulti />
+                )}
+                name={"places"}
               />
             </div>
             <div className="pb-10">
