@@ -88,9 +88,16 @@ const Inquiry: NextPage = () => {
               <Controller
                 control={control}
                 render={({ field }) => (
-                  <Select {...field} options={PlacesOptions} isMulti />
+                  <Select
+                    {...field}
+                    options={PlacesOptions}
+                    onChange={(val) => field.onChange(val)}
+                    value={field.value}
+                    isMulti
+                  />
                 )}
                 name={"places"}
+                rules={{ required: true }}
               />
             </div>
             <div className="pb-10">
