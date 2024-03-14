@@ -61,7 +61,7 @@ export const List = () => {
   };
   if (isLoading) {
     return (
-      <div className="text-center ">
+      <div className="text-center p-4">
         <h3>Data is loading</h3>
       </div>
     );
