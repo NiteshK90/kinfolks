@@ -20,3 +20,7 @@ export const useUpdateVisitorValidity = () => {
       visitorsService.updateVisitorValidity(id, values)
   );
 };
+
+export const useDeleteVisitor = () => {
+  return useMutation(visitorsService.deleteVisitor);
+};

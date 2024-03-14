@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addNewVisitor,
+  deleteVisitor,
   getSingleVisitor,
   getVisitors,
   updateValidity,
@@ -15,5 +16,7 @@ router.get("/", getVisitors);
 router.get("/:id", getSingleVisitor);
 
 router.patch("/:id", updateValidity);
+
+router.delete("/:id", deleteVisitor);
 
 export default router;

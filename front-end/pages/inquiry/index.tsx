@@ -9,6 +9,7 @@ import { NotificationType } from "../../components/common/notification/Notificat
 import Select from "react-select";
 import { PlacesOptions } from "./constants";
 import { CreateVisitorProps } from "./type";
+import { AxiosError } from "axios";
 
 const Inquiry: NextPage = () => {
   const { addNotification } = useNotification();
@@ -18,7 +19,7 @@ const Inquiry: NextPage = () => {
     handleSubmit,
     control,
     reset,
-    formState: { isDirty, isValid, errors },
+    formState: { isDirty, isValid, isLoading, errors },
   } = useForm<CreateVisitorProps>({
     mode: "all",
     defaultValues: {
@@ -33,21 +34,21 @@ const Inquiry: NextPage = () => {
   const onSubmit = async (data: CreateVisitorProps) => {
     const places = data.places?.map(({ value }) => value) || [];
     const newData = { ...data, places: places };
-    await createVisitor(newData, {
+    createVisitor(newData, {
       onSuccess: () => {
         addNotification({
           content: "Your details are stored successfully",
           type: NotificationType.Success,
         });
+        reset();
       },
-      onError: (err: any) => {
+      onError: (err: AxiosError<{ message: string }>) => {
         addNotification({
-          content: err.message,
+          content: err.response.data.message,
           type: NotificationType.Danger,
         });
       },
     });
-    reset();
   };
   return (
     <div>
@@ -59,28 +60,31 @@ const Inquiry: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} onReset={() => reset()}>
             <div className="pb-10">
               <Input
+                name="name"
                 type="text"
                 placeholder="Name"
-                {...register("name", {
-                  required: true,
+                register={register("name", {
+                  required: "Name should not be empty",
                 })}
               />
             </div>
             <div className="pb-10">
               <Input
+                name="email"
                 type="email"
                 placeholder="Email"
-                {...register("email", {
-                  required: true,
+                register={register("email", {
+                  required: "Email should not be empty",
                 })}
               />
             </div>
             <div className="pb-10">
               <Input
+                name="mobile"
                 type="number"
                 placeholder="Mobile Number"
-                {...register("mobile", {
-                  required: true,
+                register={register("mobile", {
+                  required: "Mobile number is required",
                 })}
               />
             </div>
@@ -102,10 +106,11 @@ const Inquiry: NextPage = () => {
             </div>
             <div className="pb-10">
               <Input
+                name="whenToVisit"
                 type="text"
                 placeholder="When to Visit"
-                {...register("whenToVisit", {
-                  required: true,
+                register={register("whenToVisit", {
+                  required: "This field is required",
                 })}
               />
             </div>
@@ -113,7 +118,7 @@ const Inquiry: NextPage = () => {
               <Button
                 type={ButtonTypes.Submit}
                 buttonText="Submit"
-                disabled={!isDirty || !isValid}
+                disabled={!isDirty || !isValid || isLoading}
               />
               <Button
                 type={ButtonTypes.Reset}

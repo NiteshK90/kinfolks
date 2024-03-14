@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateValidity = exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
+exports.deleteVisitor = exports.updateValidity = exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
 const Visitors_1 = __importDefault(require("../models/Visitors"));
+const uuid_1 = require("uuid");
 const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const visitor = new Visitors_1.default(Object.assign({}, data));
+        const visitor = new Visitors_1.default(Object.assign(Object.assign({}, data), { _id: (0, uuid_1.v4)(), isValidVisitor: false }));
         const savedData = yield visitor.save();
         if (!savedData) {
             res.status(500).send({ error: "Unable to add visitor" });
@@ -73,3 +74,17 @@ const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateValidity = updateValidity;
+const deleteVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const deleteVisitor = yield Visitors_1.default.findByIdAndDelete({ _id: id });
+        if (!deleteVisitor) {
+            return res.status(404).json({ message: "Visitor not found" });
+        }
+        res.json(deleteVisitor);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error ocurred" });
+    }
+});
+exports.deleteVisitor = deleteVisitor;

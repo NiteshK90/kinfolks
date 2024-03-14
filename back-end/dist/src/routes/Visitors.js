@@ -10,4 +10,5 @@ router.post("/", Visitors_1.addNewVisitor);
 router.get("/", Visitors_1.getVisitors);
 router.get("/:id", Visitors_1.getSingleVisitor);
 router.patch("/:id", Visitors_1.updateValidity);
+router.delete("/:id", Visitors_1.deleteVisitor);
 exports.default = router;
