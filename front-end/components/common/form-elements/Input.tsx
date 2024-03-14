@@ -5,6 +5,7 @@ interface InputProps {
   type: string;
   placeholder?: string;
   register?: any;
+  error?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -12,6 +13,7 @@ export const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   register = {},
+  error,
 }) => {
   return (
     <div className="w-full min-w-[200px] relative">
@@ -26,6 +28,11 @@ export const Input: React.FC<InputProps> = ({
         onBlur={register.onBlur}
         onChange={register.onChange}
       />
+      {error && (
+        <div className="absolute -bottom-5 left-0 text-xs text-danger-text">
+          {error}
+        </div>
+      )}
     </div>
   );
 };
