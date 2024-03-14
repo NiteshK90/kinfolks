@@ -1,14 +1,15 @@
 import { NextPage } from "next";
-import { useForm } from "react-hook-form";
-import { PlacesOptions } from "./constants";
+import { Controller, useForm } from "react-hook-form";
 import { useCreateVisitor } from "../../hooks/visitors.hooks";
-import { Visitor } from "../../services/visitors.service/types";
 import { Button } from "../../components/common/form-elements/Button";
 import { ButtonTypes } from "../../components/common/form-elements/types";
 import { Input } from "../../components/common/form-elements/Input";
-import { Select } from "../../components/common/form-elements/Select";
 import { useNotification } from "../../providers/common/NotificationProvider";
 import { NotificationType } from "../../components/common/notification/Notification";
+import Select from "react-select";
+import { PlacesOptions } from "./constants";
+import { CreateVisitorProps } from "./type";
+import { AxiosError } from "axios";
 
 const Inquiry: NextPage = () => {
   const { addNotification } = useNotification();
@@ -16,9 +17,10 @@ const Inquiry: NextPage = () => {
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { isDirty, isValid, isLoading, errors },
-  } = useForm<Visitor>({
+  } = useForm<CreateVisitorProps>({
     mode: "all",
     defaultValues: {
       name: "",
@@ -29,22 +31,24 @@ const Inquiry: NextPage = () => {
     },
   });
 
-  const onSubmit = async (data: Visitor) => {
-    await createVisitor(data, {
+  const onSubmit = async (data: CreateVisitorProps) => {
+    const places = data.places?.map(({ value }) => value) || [];
+    const newData = { ...data, places: places };
+    createVisitor(newData, {
       onSuccess: () => {
         addNotification({
           content: "Your details are stored successfully",
           type: NotificationType.Success,
         });
+        reset();
       },
-      onError: (err: any) => {
+      onError: (err: AxiosError<{ message: string }>) => {
         addNotification({
-          content: err.message,
+          content: err.response.data.message,
           type: NotificationType.Danger,
         });
       },
     });
-    reset();
   };
   return (
     <div>
@@ -56,47 +60,57 @@ const Inquiry: NextPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} onReset={() => reset()}>
             <div className="pb-10">
               <Input
+                name="name"
                 type="text"
                 placeholder="Name"
-                {...register("name", {
-                  required: true,
+                register={register("name", {
+                  required: "Name should not be empty",
                 })}
               />
             </div>
             <div className="pb-10">
               <Input
+                name="email"
                 type="email"
                 placeholder="Email"
-                {...register("email", {
-                  required: true,
+                register={register("email", {
+                  required: "Email should not be empty",
                 })}
               />
             </div>
             <div className="pb-10">
               <Input
+                name="mobile"
                 type="number"
                 placeholder="Mobile Number"
-                {...register("mobile", {
-                  required: true,
+                register={register("mobile", {
+                  required: "Mobile number is required",
                 })}
               />
             </div>
             <div className="pb-10">
-              <Select
-                placeholder="Select places"
-                options={PlacesOptions || []}
-                register={register("places", {
-                  required: true,
-                })}
-                multiple
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={PlacesOptions}
+                    onChange={(val) => field.onChange(val)}
+                    value={field.value}
+                    isMulti
+                  />
+                )}
+                name={"places"}
+                rules={{ required: true }}
               />
             </div>
             <div className="pb-10">
               <Input
+                name="whenToVisit"
                 type="text"
                 placeholder="When to Visit"
-                {...register("whenToVisit", {
-                  required: true,
+                register={register("whenToVisit", {
+                  required: "This field is required",
                 })}
               />
             </div>
@@ -104,7 +118,7 @@ const Inquiry: NextPage = () => {
               <Button
                 type={ButtonTypes.Submit}
                 buttonText="Submit"
-                disabled={!isDirty || !isValid}
+                disabled={!isDirty || !isValid || isLoading}
               />
               <Button
                 type={ButtonTypes.Reset}

@@ -1,17 +1,20 @@
 import { AxiosError } from "axios";
 import {
+  useDeleteVisitor,
   useGetVisitors,
   useUpdateVisitorValidity,
 } from "../../../hooks/visitors.hooks";
 import { useNotification } from "../../../providers/common/NotificationProvider";
 import { Visitor } from "../../../services/visitors.service/types";
 import { NotificationType } from "../../common/notification/Notification";
+import { Trash } from "phosphor-react";
 
 export const List = () => {
   const { data, isLoading, isError, refetch } = useGetVisitors();
   const { addNotification } = useNotification();
   const { mutate: updateVisitorValidity, isLoading: isValidationLoading } =
     useUpdateVisitorValidity();
+  const { mutate: deleteVisitor } = useDeleteVisitor();
 
   const handleChange = (item: Visitor, checked: boolean) => {
     updateVisitorValidity(
@@ -38,9 +41,27 @@ export const List = () => {
       }
     );
   };
+
+  const handleDelete = (id: string) => {
+    deleteVisitor(id, {
+      onSuccess: () => {
+        addNotification({
+          content: "Visitor deleted successfully",
+          type: NotificationType.Success,
+        });
+        refetch();
+      },
+      onError: (err: AxiosError<{ message: string }>) => {
+        addNotification({
+          content: err.response.data.message,
+          type: NotificationType.Danger,
+        });
+      },
+    });
+  };
   if (isLoading) {
     return (
-      <div className="text-center ">
+      <div className="text-center p-4">
         <h3>Data is loading</h3>
       </div>
     );
@@ -78,12 +99,21 @@ export const List = () => {
               <div className="p-2">{item.email}</div>
               <div className="p-2">{item.whenToVisit}</div>
               <div className="p-2">
-                <input
-                  type="checkbox"
-                  checked={!!item.isValidVisitor}
-                  onChange={(event) => handleChange(item, event.target.checked)}
-                  disabled={isValidationLoading}
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={!!item.isValidVisitor}
+                    onChange={(event) =>
+                      handleChange(item, event.target.checked)
+                    }
+                    disabled={isValidationLoading}
+                  />
+                  <Trash
+                    size={16}
+                    onClick={() => handleDelete(item._id)}
+                    className="cursor-pointer"
+                  />
+                </div>
               </div>
             </div>
           ))}

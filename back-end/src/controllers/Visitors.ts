@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import Visitors from "../models/Visitors";
+import { v4 } from "uuid";
 
 export const addNewVisitor = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const visitor = new Visitors({ ...data });
+    const visitor = new Visitors({ ...data, _id: v4(), isValidVisitor: false });
     const savedData = await visitor.save();
     if (!savedData) {
       res.status(500).send({ error: "Unable to add visitor" });
@@ -56,6 +57,20 @@ export const updateValidity = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
     res.json(updateUser);
+  } catch (error) {
+    res.status(500).json({ message: "Error ocurred" });
+  }
+};
+
+export const deleteVisitor = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const deleteVisitor = await Visitors.findByIdAndDelete({ _id: id });
+    if (!deleteVisitor) {
+      return res.status(404).json({ message: "Visitor not found" });
+    }
+    res.json(deleteVisitor);
   } catch (error) {
     res.status(500).json({ message: "Error ocurred" });
   }

@@ -15,6 +15,11 @@ class VisitorsService {
     const response = await apiInstance.patch(`/visitors/${id}`, values);
     return response;
   }
+
+  async deleteVisitor(id: string) {
+    const response = await apiInstance.delete(`/visitors/${id}`);
+    return response;
+  }
 }
 
 export default new VisitorsService();
