@@ -31,6 +31,8 @@ const Inquiry: NextPage = () => {
     },
   });
 
+  console.log(errors?.places);
+
   const onSubmit = async (data: CreateVisitorProps) => {
     const places = data.places?.map(({ value }) => value) || [];
     const newData = { ...data, places: places };
@@ -65,7 +67,12 @@ const Inquiry: NextPage = () => {
                 placeholder="Name"
                 register={register("name", {
                   required: "Name should not be empty",
+                  pattern: {
+                    value: /^[A-Za-z ]+$/,
+                    message: "Name must only contain letters and spaces",
+                  },
                 })}
+                error={errors?.name?.message}
               />
             </div>
             <div className="pb-10">
@@ -75,7 +82,12 @@ const Inquiry: NextPage = () => {
                 placeholder="Email"
                 register={register("email", {
                   required: "Email should not be empty",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email format",
+                  },
                 })}
+                error={errors?.email?.message}
               />
             </div>
             <div className="pb-10">
@@ -85,24 +97,36 @@ const Inquiry: NextPage = () => {
                 placeholder="Mobile Number"
                 register={register("mobile", {
                   required: "Mobile number is required",
+                  pattern: {
+                    value: /^[0-9]{10}$/,
+                    message: "Mobile number must be 10 digits",
+                  },
                 })}
+                error={errors?.mobile?.message}
               />
             </div>
             <div className="pb-10">
-              <Controller
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={PlacesOptions}
-                    onChange={(val) => field.onChange(val)}
-                    value={field.value}
-                    isMulti
-                  />
+              <div className="relative">
+                <Controller
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={PlacesOptions}
+                      onChange={(val) => field.onChange(val)}
+                      value={field.value}
+                      isMulti
+                    />
+                  )}
+                  name={"places"}
+                  rules={{ required: "At least one place should be selected" }}
+                />
+                {errors?.places?.message && (
+                  <div className="absolute -bottom-5 left-0 text-xs text-danger-text">
+                    {errors?.places?.message}
+                  </div>
                 )}
-                name={"places"}
-                rules={{ required: true }}
-              />
+              </div>
             </div>
             <div className="pb-10">
               <Input
@@ -112,6 +136,7 @@ const Inquiry: NextPage = () => {
                 register={register("whenToVisit", {
                   required: "This field is required",
                 })}
+                error={errors?.whenToVisit?.message}
               />
             </div>
             <div className="flex gap-2 justify-between items-center">
