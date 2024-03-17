@@ -1,20 +1,19 @@
 import { AxiosError } from "axios";
 import {
-  useDeleteVisitor,
   useGetVisitors,
   useUpdateVisitorValidity,
 } from "../../../hooks/visitors.hooks";
 import { useNotification } from "../../../providers/common/NotificationProvider";
 import { Visitor } from "../../../services/visitors.service/types";
 import { NotificationType } from "../../common/notification/Notification";
-import { Trash } from "phosphor-react";
 
 export const List = () => {
   const { data, isLoading, isError, refetch } = useGetVisitors();
+
   const { addNotification } = useNotification();
+
   const { mutate: updateVisitorValidity, isLoading: isValidationLoading } =
     useUpdateVisitorValidity();
-  const { mutate: deleteVisitor } = useDeleteVisitor();
 
   const handleChange = (item: Visitor, checked: boolean) => {
     updateVisitorValidity(
@@ -42,23 +41,6 @@ export const List = () => {
     );
   };
 
-  const handleDelete = (id: string) => {
-    deleteVisitor(id, {
-      onSuccess: () => {
-        addNotification({
-          content: "Visitor deleted successfully",
-          type: NotificationType.Success,
-        });
-        refetch();
-      },
-      onError: (err: AxiosError<{ message: string }>) => {
-        addNotification({
-          content: err.response.data.message,
-          type: NotificationType.Danger,
-        });
-      },
-    });
-  };
   if (isLoading) {
     return (
       <div className="text-center p-4">
@@ -66,6 +48,7 @@ export const List = () => {
       </div>
     );
   }
+
   if (isError) {
     return (
       <div className="text-center p-4">
@@ -73,6 +56,7 @@ export const List = () => {
       </div>
     );
   }
+
   return (
     <div>
       <div className="p-4">
@@ -107,11 +91,6 @@ export const List = () => {
                       handleChange(item, event.target.checked)
                     }
                     disabled={item.isValidVisitor || isValidationLoading}
-                  />
-                  <Trash
-                    size={16}
-                    onClick={() => handleDelete(item._id)}
-                    className="cursor-pointer"
                   />
                 </div>
               </div>
