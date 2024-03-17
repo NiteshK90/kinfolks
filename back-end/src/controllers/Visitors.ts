@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Visitors from "../models/Visitors";
 import { v4 } from "uuid";
+import Users from "../models/Users";
 
 export const addNewVisitor = async (req: Request, res: Response) => {
   try {
@@ -48,15 +49,28 @@ export const updateValidity = async (req: Request, res: Response) => {
   const { isValidVisitor } = req.body;
 
   try {
-    const updateUser = await Visitors.findByIdAndUpdate(
+    const updateVisitor = await Visitors.findByIdAndUpdate(
       { _id: id },
       { isValidVisitor },
       { new: true }
     );
-    if (!updateUser) {
+    if (!updateVisitor) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json(updateUser);
+    const newUser = new Users({
+      _id: v4(),
+      name: updateVisitor.name,
+      mobile: updateVisitor.mobile,
+      email: updateVisitor.email,
+      refId: updateVisitor._id,
+    });
+    const saveUser = await newUser.save();
+    if (!saveUser) {
+      return res
+        .status(500)
+        .json({ message: "User not created", visitor: updateVisitor });
+    }
+    res.json({ user: saveUser, visitor: updateVisitor });
   } catch (error) {
     res.status(500).json({ message: "Error ocurred" });
   }

@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { PageWrapper } from "../../components/admin/common/PageWrapper";
+import { PageWrapper } from "../../../components/admin/common/PageWrapper";
 
 const Admin: NextPage = () => {
   return (

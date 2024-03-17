@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Visitors_1 = __importDefault(require("./src/routes/Visitors"));
+const Users_1 = __importDefault(require("./src/routes/Users"));
 const app = (0, express_1.default)();
 const port = 8000;
 const MONGO_URL = process.env.DB_CONN_STRING ||
@@ -16,6 +17,7 @@ app.use((0, cors_1.default)());
 //All routes-
 // visitors
 app.use("/visitors", Visitors_1.default);
+app.use("/users", Users_1.default);
 mongoose_1.default
     .connect(MONGO_URL)
     .then(() => {
