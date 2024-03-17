@@ -16,7 +16,7 @@ exports.getUsers = void 0;
 const Users_1 = __importDefault(require("../models/Users"));
 const getUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = Users_1.default.find();
+        const users = yield Users_1.default.find();
         if (!users) {
             return res.status(400).json({ message: "Users data empty" });
         }

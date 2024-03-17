@@ -3,7 +3,7 @@ import Users from "../models/Users";
 
 export const getUsers = async (_req: Request, res: Response) => {
   try {
-    const users = Users.find();
+    const users = await Users.find();
     if (!users) {
       return res.status(400).json({ message: "Users data empty" });
     }
