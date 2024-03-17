@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteVisitor = exports.updateValidity = exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
 const Visitors_1 = __importDefault(require("../models/Visitors"));
 const uuid_1 = require("uuid");
+const Users_1 = __importDefault(require("../models/Users"));
 const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
@@ -63,11 +64,24 @@ const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { id } = req.params;
     const { isValidVisitor } = req.body;
     try {
-        const updateUser = yield Visitors_1.default.findByIdAndUpdate({ _id: id }, { isValidVisitor }, { new: true });
-        if (!updateUser) {
+        const updateVisitor = yield Visitors_1.default.findByIdAndUpdate({ _id: id }, { isValidVisitor }, { new: true });
+        if (!updateVisitor) {
             return res.status(404).json({ message: "User not found" });
         }
-        res.json(updateUser);
+        const newUser = new Users_1.default({
+            _id: (0, uuid_1.v4)(),
+            name: updateVisitor.name,
+            mobile: updateVisitor.mobile,
+            email: updateVisitor.email,
+            refId: updateVisitor._id,
+        });
+        const saveUser = yield newUser.save();
+        if (!saveUser) {
+            return res
+                .status(500)
+                .json({ message: "User not created", visitor: updateVisitor });
+        }
+        res.json({ user: saveUser, visitor: updateVisitor });
     }
     catch (error) {
         res.status(500).json({ message: "Error ocurred" });
