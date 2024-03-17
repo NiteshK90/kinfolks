@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import mongoose, { Error } from "mongoose";
 import visitorsRoutes from "./src/routes/Visitors";
+import usersRoutes from "./src/routes/Users";
 
 const app: Express = express();
 const port = 8000;
@@ -16,6 +17,8 @@ app.use(cors());
 
 // visitors
 app.use("/visitors", visitorsRoutes);
+
+app.use("/users", usersRoutes);
 
 mongoose
   .connect(MONGO_URL)
