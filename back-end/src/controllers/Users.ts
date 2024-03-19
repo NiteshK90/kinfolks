@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import Users from "../models/Users";
-import Visitors from "../models/Visitors";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
