@@ -2,18 +2,23 @@ import { Request, Response } from "express";
 import Visitors from "../models/Visitors";
 import { v4 } from "uuid";
 import Users from "../models/Users";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const addNewVisitor = async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    const visitor = new Visitors({ ...data, _id: v4(), isValidVisitor: false });
-    const savedData = await visitor.save();
-    if (!savedData) {
+    const visitor = await prisma.visitors.create({
+      data: { ...data, isValidVisitor: false },
+    });
+    if (!visitor) {
       res.status(500).send({ error: "Unable to add visitor" });
     }
+    const serializedData = { ...visitor, mobile: visitor.mobile.toString() };
     res
       .status(201)
-      .send({ msg: "Visitor added successfully", data: savedData });
+      .send({ msg: "Visitor added successfully", data: serializedData });
   } catch (error: any) {
     res.status(500).send({ error: error.message });
   }
@@ -21,11 +26,15 @@ export const addNewVisitor = async (req: Request, res: Response) => {
 
 export const getVisitors = async (_req: Request, res: Response) => {
   try {
-    const visitors = await Visitors.find();
+    const visitors = await prisma.visitors.findMany();
     if (!visitors) {
       res.status(400).json({ error: "Visitors data empty" });
     }
-    res.status(200).json(visitors);
+    const serializedData = visitors.map((item) => ({
+      ...item,
+      mobile: item.mobile.toString(),
+    }));
+    res.status(200).json(serializedData);
   } catch (err: any) {
     res.status(500).json(err.message);
   }
@@ -34,11 +43,16 @@ export const getVisitors = async (_req: Request, res: Response) => {
 export const getSingleVisitor = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const visitor = await Visitors.findById({ _id: id });
+    const visitor = prisma.visitors.findUnique({
+      where: {
+        id,
+      },
+    });
     if (!visitor) {
       res.status(400).json({ error: "Visitor not found" });
     }
-    res.status(200).json(visitor);
+    const serializedData = { ...visitor };
+    res.status(200).json(serializedData);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
@@ -49,28 +63,31 @@ export const updateValidity = async (req: Request, res: Response) => {
   const { isValidVisitor } = req.body;
 
   try {
-    const updateVisitor = await Visitors.findByIdAndUpdate(
-      { _id: id },
-      { isValidVisitor },
-      { new: true }
-    );
+    const updateVisitor = await prisma.visitors.update({
+      where: { id },
+      data: { isValidVisitor },
+    });
     if (!updateVisitor) {
       return res.status(404).json({ message: "User not found" });
     }
-    const newUser = new Users({
-      _id: v4(),
-      name: updateVisitor.name,
-      mobile: updateVisitor.mobile,
-      email: updateVisitor.email,
-      refId: updateVisitor._id,
+    const serializedVisitor = {
+      ...updateVisitor,
+      mobile: updateVisitor.mobile.toString(),
+    };
+    const saveUser = await prisma.users.create({
+      data: {
+        name: updateVisitor.name,
+        email: updateVisitor.email,
+        mobile: updateVisitor.mobile,
+      },
     });
-    const saveUser = await newUser.save();
     if (!saveUser) {
       return res
         .status(500)
-        .json({ message: "User not created", visitor: updateVisitor });
+        .json({ message: "User not created", visitor: serializedVisitor });
     }
-    res.json({ user: saveUser, visitor: updateVisitor });
+    const serializedUser = { ...saveUser, mobile: saveUser.mobile.toString() };
+    res.json({ user: serializedUser, visitor: serializedVisitor });
   } catch (error) {
     res.status(500).json({ message: "Error ocurred" });
   }

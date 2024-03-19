@@ -6,25 +6,18 @@ import usersRoutes from "./src/routes/Users";
 
 const app: Express = express();
 const port = 8000;
-const MONGO_URL =
-  process.env.DB_CONN_STRING ||
-  "mongodb+srv://NiteshK90:41m0xCpFScSa9bVV@cluster0.4uzprbh.mongodb.net/kinfolks?retryWrites=true&w=majority";
+const DB_URL =
+  process.env.DATABASE_URL ||
+  "postgresql://justmac@localhost:5432/kinfolks?schema=public&connection_limit=5&pool_timeout=0";
 
 app.use(express.json());
 app.use(cors());
 
 //All routes-
-
-// visitors
 app.use("/visitors", visitorsRoutes);
-
 app.use("/users", usersRoutes);
 
-mongoose
-  .connect(MONGO_URL)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-    });
-  })
-  .catch((err: Error) => console.log(err));
+// Connection
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
