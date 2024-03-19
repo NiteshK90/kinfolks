@@ -16,22 +16,27 @@ datasource db {
 // Models =>
 
 model Visitors {
-  id String @id @default(uuid())
-  name String
-  mobile BigInt
-  email String
-  places String[]
-  whenToVisit String @map("when_to_visit")
-  isValidVisitor Boolean @map("is_valid_visitor")
-  createdAt DateTime @default(now()) @map("created_at")
+  id             String   @id @default(uuid())
+  name           String
+  mobile         BigInt
+  email          String
+  places         String[]
+  whenToVisit    String   @map("when_to_visit")
+  isValidVisitor Boolean  @map("is_valid_visitor")
+  createdAt      DateTime @default(now()) @map("created_at")
+  Users          Users?
+
   @@map("visitors")
 }
 
 model Users {
-  id String @id @default(uuid())
-  name String
-  mobile BigInt
-  email String
+  id        String   @id @default(uuid())
+  name      String
+  mobile    BigInt
+  email     String
   createdAt DateTime @default(now()) @map("created_at")
+  visitor   Visitors @relation(fields: [visitorId], references: [id])
+  visitorId String   @unique @map("visitor_id")
+
   @@map("users")
 }

@@ -8,12 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteVisitor = exports.updateValidity = exports.getSingleVisitor = exports.getVisitors = exports.addNewVisitor = void 0;
-const Visitors_1 = __importDefault(require("../models/Visitors"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,6 +29,9 @@ const addNewVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     catch (error) {
         res.status(500).send({ error: error.message });
     }
+    finally {
+        prisma.$disconnect();
+    }
 });
 exports.addNewVisitor = addNewVisitor;
 const getVisitors = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,6 +45,9 @@ const getVisitors = (_req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     catch (err) {
         res.status(500).json(err.message);
+    }
+    finally {
+        prisma.$disconnect();
     }
 });
 exports.getVisitors = getVisitors;
@@ -66,6 +68,9 @@ const getSingleVisitor = (req, res) => __awaiter(void 0, void 0, void 0, functio
     catch (err) {
         res.status(500).json({ error: err.message });
     }
+    finally {
+        prisma.$disconnect();
+    }
 });
 exports.getSingleVisitor = getSingleVisitor;
 const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -85,6 +90,7 @@ const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 name: updateVisitor.name,
                 email: updateVisitor.email,
                 mobile: updateVisitor.mobile,
+                visitorId: updateVisitor.id,
             },
         });
         if (!saveUser) {
@@ -98,19 +104,26 @@ const updateValidity = (req, res) => __awaiter(void 0, void 0, void 0, function*
     catch (error) {
         res.status(500).json({ message: "Error ocurred" });
     }
+    finally {
+        prisma.$disconnect();
+    }
 });
 exports.updateValidity = updateValidity;
 const deleteVisitor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const deleteVisitor = yield Visitors_1.default.findByIdAndDelete({ _id: id });
+        const deleteVisitor = yield prisma.visitors.delete({ where: { id } });
         if (!deleteVisitor) {
             return res.status(404).json({ message: "Visitor not found" });
         }
-        res.json(deleteVisitor);
+        const serialisedVisitor = Object.assign(Object.assign({}, deleteVisitor), { mobile: deleteVisitor.mobile.toString() });
+        res.json(serialisedVisitor);
     }
     catch (error) {
         res.status(500).json({ message: "Error ocurred" });
+    }
+    finally {
+        prisma.$disconnect();
     }
 });
 exports.deleteVisitor = deleteVisitor;

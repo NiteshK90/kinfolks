@@ -1,7 +1,4 @@
 import { Request, Response } from "express";
-import Visitors from "../models/Visitors";
-import { v4 } from "uuid";
-import Users from "../models/Users";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -85,6 +82,7 @@ export const updateValidity = async (req: Request, res: Response) => {
         name: updateVisitor.name,
         email: updateVisitor.email,
         mobile: updateVisitor.mobile,
+        visitorId: updateVisitor.id,
       },
     });
     if (!saveUser) {
