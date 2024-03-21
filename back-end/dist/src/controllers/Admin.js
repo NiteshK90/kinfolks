@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePassword = void 0;
+exports.login = exports.updatePassword = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const client_1 = require("@prisma/client");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma = new client_1.PrismaClient();
 const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -35,3 +36,19 @@ const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.status(201).json({ user: updateAdminUser });
 });
 exports.updatePassword = updatePassword;
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body();
+    const user = yield prisma.adminUsers.findUnique({ where: { email: email } });
+    if (!user) {
+        return res.status(400).json({ message: "User not found." });
+    }
+    const isValid = yield bcrypt_1.default.compare(password, user.password);
+    if (!isValid) {
+        return res.status(500).json({ message: "Wrong username or password" });
+    }
+    const token = jsonwebtoken_1.default.sign({ userId: user.id }, "your_secret_key", {
+        expiresIn: "1h",
+    });
+    res.status(201).json({ message: "Login successful", token: token });
+});
+exports.login = login;
