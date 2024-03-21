@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Models =>
+
+model Visitors {
+  id             String   @id @default(uuid())
+  name           String
+  mobile         BigInt
+  email          String
+  places         String[]
+  whenToVisit    String   @map("when_to_visit")
+  isValidVisitor Boolean  @map("is_valid_visitor")
+  createdAt      DateTime @default(now()) @map("created_at")
+  Users          Users?
+
+  @@map("visitors")
+}
+
+model Users {
+  id        String   @id @default(uuid())
+  name      String
+  mobile    BigInt
+  email     String
+  createdAt DateTime @default(now()) @map("created_at")
+  visitor   Visitors @relation(fields: [visitorId], references: [id])
+  visitorId String   @unique @map("visitor_id")
+
+  @@map("users")
+}

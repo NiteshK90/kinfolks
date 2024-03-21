@@ -8,20 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.getUsers = void 0;
-const Users_1 = __importDefault(require("../models/Users"));
-const Visitors_1 = __importDefault(require("../models/Visitors"));
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 const getUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield Users_1.default.find();
+        const users = yield prisma.users.findMany();
         if (!users) {
             return res.status(400).json({ message: "Users data empty" });
         }
-        res.status(200).json(users);
+        const serialisedUsers = users.map((item) => (Object.assign(Object.assign({}, item), { mobile: item.mobile.toString() })));
+        res.status(200).json(serialisedUsers);
     }
     catch (err) {
         res.status(500).json({ message: err.message });
@@ -31,22 +29,24 @@ exports.getUsers = getUsers;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const deleteUser = yield Users_1.default.findByIdAndDelete({ _id: id });
+        const deleteUser = yield prisma.users.delete({ where: { id } });
         if (!deleteUser) {
             return res.status(404).json({ message: "User not found" });
         }
-        const deleteVisitor = yield Visitors_1.default.findByIdAndDelete({
-            _id: deleteUser.refId,
+        const serialisedUser = Object.assign(Object.assign({}, deleteUser), { mobile: deleteUser.mobile.toString() });
+        const deleteVisitor = yield prisma.visitors.delete({
+            where: { id: deleteUser.visitorId },
         });
         if (!deleteVisitor) {
             return res
                 .status(404)
-                .json({ message: "Visitor not found", user: { deleteUser } });
+                .json({ message: "Visitor not found", user: serialisedUser });
         }
-        res.json({ user: deleteUser, visitor: deleteVisitor });
+        const serialisedVisitor = Object.assign(Object.assign({}, deleteVisitor), { mobile: deleteVisitor.mobile.toString() });
+        res.json({ user: serialisedUser, visitor: serialisedVisitor });
     }
     catch (error) {
-        res.status(500).json({ message: "Error ocurred" });
+        res.status(500).json({ message: error.message });
     }
 });
 exports.deleteUser = deleteUser;

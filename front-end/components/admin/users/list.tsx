@@ -70,7 +70,7 @@ export const List = () => {
                 <div className="flex items-center gap-2">
                   <Trash
                     size={16}
-                    onClick={() => handleDelete(item._id)}
+                    onClick={() => handleDelete(item.id)}
                     className="cursor-pointer"
                   />
                 </div>
