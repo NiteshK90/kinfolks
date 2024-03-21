@@ -9,6 +9,9 @@ export const Navbar = () => {
       <div className="pb-4">
         <Link href="users">Users</Link>
       </div>
+      <div className="pb-4">
+        <Link href="settings">Settings</Link>
+      </div>
     </div>
   );
 };

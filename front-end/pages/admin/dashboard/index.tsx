@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { PageWrapper } from "../../../components/admin/common/PageWrapper";
 
-const Admin: NextPage = () => {
+const Dashboard: NextPage = () => {
   return (
-    <PageWrapper title="Admin">
+    <PageWrapper title="Dashboard">
       <div className="p-10">
         <h2>Admin Home Page</h2>
       </div>
@@ -11,4 +11,4 @@ const Admin: NextPage = () => {
   );
 };
 
-export default Admin;
+export default Dashboard;
