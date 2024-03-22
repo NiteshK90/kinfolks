@@ -15,6 +15,11 @@ export interface AdminUser {
 }
 
 export interface ChagePasswordProps {
+  id: string;
+  password: string;
+}
+
+export interface LoginType {
   email: string;
   password: string;
 }

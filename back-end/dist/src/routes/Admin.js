@@ -7,5 +7,5 @@ const express_1 = __importDefault(require("express"));
 const Admin_1 = require("../controllers/Admin");
 const router = express_1.default.Router();
 router.patch("/change-password", Admin_1.updatePassword);
-router.patch("/login", Admin_1.login);
+router.post("/login", Admin_1.login);
 exports.default = router;

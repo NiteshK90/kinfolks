@@ -37,7 +37,7 @@ const Settings: NextPage = () => {
   const onSubmit = (data: FormState) => {
     changePassword(
       {
-        email: "nnkhatate@gmail.com",
+        id: "3b553c0f-6468-42cf-b71f-0570f4bbb856",
         password: data.newPassword,
       },
       {

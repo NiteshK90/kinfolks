@@ -18,17 +18,12 @@ const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma = new client_1.PrismaClient();
 const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const { password } = req.body;
+    const { id, password } = req.body;
     const salt = yield bcrypt_1.default.genSalt(10);
     const hashedPassword = yield bcrypt_1.default.hash(password, salt);
     const updateAdminUser = yield prisma.adminUsers.update({
-        where: {
-            id,
-        },
-        data: {
-            password: hashedPassword,
-        },
+        where: { id },
+        data: { password: hashedPassword },
     });
     if (!updateAdminUser) {
         return res.status(400).json({ message: "User not found" });
