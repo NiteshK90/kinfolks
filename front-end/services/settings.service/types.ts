@@ -23,3 +23,8 @@ export interface LoginType {
   email: string;
   password: string;
 }
+
+export interface LoginResponse {
+  message: string;
+  token: string;
+}

@@ -20,7 +20,7 @@ export const updatePassword = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body();
+  const { email, password } = req.body;
   const user = await prisma.adminUsers.findUnique({ where: { email: email } });
   if (!user) {
     return res.status(400).json({ message: "User not found." });

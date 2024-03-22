@@ -1,5 +1,5 @@
 import apiInstance from "../axios";
-import { ChagePasswordProps, LoginType } from "./types";
+import { ChagePasswordProps, LoginResponse, LoginType } from "./types";
 
 class SettingsService {
   changePassword(values: ChagePasswordProps) {
@@ -12,7 +12,7 @@ class SettingsService {
   login(values: LoginType) {
     const response = apiInstance
       .post("/admin/login", values)
-      .then((res) => res.data);
+      .then((res) => res.data as LoginResponse);
     return response;
   }
 }

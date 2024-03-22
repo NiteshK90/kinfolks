@@ -6,7 +6,12 @@ const Admin: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/admin/dashboard");
+    const user = localStorage.getItem("adminuser");
+    if (user) {
+      router.push("/admin/dashboard");
+    } else {
+      router.push("/admin/login");
+    }
   }, [router]);
 
   return null;
