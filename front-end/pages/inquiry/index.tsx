@@ -31,8 +31,6 @@ const Inquiry: NextPage = () => {
     },
   });
 
-  console.log(errors?.places);
-
   const onSubmit = async (data: CreateVisitorProps) => {
     const places = data.places?.map(({ value }) => value) || [];
     const newData = { ...data, places: places };

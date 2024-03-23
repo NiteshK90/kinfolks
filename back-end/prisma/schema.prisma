@@ -40,3 +40,20 @@ model Users {
 
   @@map("users")
 }
+
+enum UserRole {
+  master
+  admin
+  employee
+  guest
+}
+
+model AdminUsers {
+  id        String   @id @default(uuid())
+  name String
+  email String @unique
+  role UserRole
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  @@map("admin_users")
+}
