@@ -57,3 +57,23 @@ model AdminUsers {
   createdAt DateTime @default(now()) @map("created_at")
   @@map("admin_users")
 }
+
+model Locations {
+  id        String   @id @default(uuid())
+  name String
+  bestTime String @map("best_time")
+  createdAt DateTime @default(now()) @map("created_at")
+  places Places?
+  @@map("locations")
+}
+
+model Places {
+  id        String   @id @default(uuid())
+  name String
+  timeToVisit String @map("time_to_visit")
+  description String
+  locationId String @unique @map("location_id")
+  location Locations @relation(fields: [locationId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  @@map("places")
+}
