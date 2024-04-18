@@ -10,6 +10,7 @@ export interface Places {
 export interface Locations {
   id?: string;
   name: string;
+  bestTime: string;
   places: Places[];
   createdAt: string;
 }

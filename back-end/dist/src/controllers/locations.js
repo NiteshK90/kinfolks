@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewLocationWithPlaces = void 0;
+exports.getAllLocations = exports.addNewLocationWithPlaces = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const addNewLocationWithPlaces = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -21,7 +21,11 @@ const addNewLocationWithPlaces = (req, res) => __awaiter(void 0, void 0, void 0,
                 bestTime: data.bestTime,
                 places: {
                     createMany: {
-                        data: data.places,
+                        data: data.places.map((place) => ({
+                            name: place.name,
+                            timeToVisit: place.timeToVisit,
+                            description: place.description,
+                        })),
                     },
                 },
             },
@@ -41,3 +45,27 @@ const addNewLocationWithPlaces = (req, res) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.addNewLocationWithPlaces = addNewLocationWithPlaces;
+const getAllLocations = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const locations = yield prisma.locations.findMany({
+            select: {
+                id: true,
+                name: true,
+                bestTime: true,
+                createdAt: true,
+                places: true,
+            },
+        });
+        if (!locations) {
+            res.status(400).json({ error: "Locations are empty" });
+        }
+        res.status(200).json(locations);
+    }
+    catch (err) {
+        res.status(500).json(err.message);
+    }
+    finally {
+        prisma.$disconnect();
+    }
+});
+exports.getAllLocations = getAllLocations;

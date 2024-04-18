@@ -26,12 +26,14 @@ interface ButtonProps {
   type: ButtonTypes;
   disabled?: boolean;
   buttonText: string;
+  onClick?: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   type,
   disabled = false,
   buttonText,
+  onClick = () => {},
 }) => {
   const buttonClasses = useMemo(() => getButtonClasses(type), [type]);
   return (
@@ -41,6 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
         disabled ? buttonClasses.disabled : buttonClasses.active
       }`}
       disabled={disabled}
+      onClick={onClick}
     >
       {buttonText}
     </button>

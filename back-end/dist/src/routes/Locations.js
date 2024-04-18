@@ -7,4 +7,5 @@ const express_1 = __importDefault(require("express"));
 const Locations_1 = require("../controllers/Locations");
 const router = express_1.default.Router();
 router.post("/", Locations_1.addNewLocationWithPlaces);
+router.get("/", Locations_1.getAllLocations);
 exports.default = router;
