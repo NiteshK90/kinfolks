@@ -1,5 +1,5 @@
 export interface Places {
-  id: string;
+  id?: string;
   name: string;
   timeToVisit: string;
   description: string;
@@ -8,7 +8,7 @@ export interface Places {
 }
 
 export interface Locations {
-  id: string;
+  id?: string;
   name: string;
   places: Places[];
   createdAt: string;
