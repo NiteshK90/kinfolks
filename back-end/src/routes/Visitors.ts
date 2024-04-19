@@ -5,7 +5,7 @@ import {
   getSingleVisitor,
   getVisitors,
   updateValidity,
-} from "../controllers/Visitors";
+} from "@controllers/Visitors";
 
 const router = express.Router();
 

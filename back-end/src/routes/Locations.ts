@@ -2,7 +2,7 @@ import express from "express";
 import {
   addNewLocationWithPlaces,
   getAllLocations,
-} from "../controllers/Locations";
+} from "@controllers/Locations";
 
 const router = express.Router();
 

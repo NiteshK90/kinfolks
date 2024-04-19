@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const Visitors_1 = __importDefault(require("./src/routes/Visitors"));
-const Users_1 = __importDefault(require("./src/routes/Users"));
-const Admin_1 = __importDefault(require("./src/routes/Admin"));
-const Locations_1 = __importDefault(require("./src/routes/Locations"));
+const Visitors_1 = __importDefault(require("@routes/Visitors"));
+const Users_1 = __importDefault(require("@routes/Users"));
+const Admin_1 = __importDefault(require("@routes/Admin"));
+const Locations_1 = __importDefault(require("@routes/Locations"));
 const app = (0, express_1.default)();
 const port = 8000;
 app.use(express_1.default.json());
