@@ -2,10 +2,10 @@ import { AxiosError } from "axios";
 import {
   useGetVisitors,
   useUpdateVisitorValidity,
-} from "../../../hooks/visitors.hooks";
-import { useNotification } from "../../../providers/common/NotificationProvider";
-import { Visitor } from "../../../services/visitors.service/types";
-import { NotificationType } from "../../common/notification/Notification";
+} from "@hooks/visitors.hooks";
+import { useNotification } from "@providers/common/NotificationProvider";
+import { Visitor } from "@services/visitors.service/types";
+import { NotificationType } from "@common-components/notification/Notification";
 
 export const List = () => {
   const { data, isLoading, isError, refetch } = useGetVisitors();

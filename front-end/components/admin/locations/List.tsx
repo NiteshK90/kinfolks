@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useGetLocations } from "../../../hooks/locations.hooks";
+import { useGetLocations } from "@hooks/locations.hooks";
+import { Locations } from "@services/locations.service/types";
+
+export const Row = ({ location }: { location: Locations }) => {};
 
 export const List = () => {
   const { data: allLocations, isLoading, isError } = useGetLocations();

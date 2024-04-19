@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import { LoginType } from "../../../services/settings.service/types";
-import { Input } from "../../../components/common/form-elements/Input";
-import { Button } from "../../../components/common/form-elements/Button";
-import { ButtonTypes } from "../../../components/common/form-elements/types";
-import { useLogin } from "../../../hooks/settings.hooks";
-import { useNotification } from "../../../providers/common/NotificationProvider";
+import { LoginType } from "@services/settings.service/types";
+import { Input } from "@components/common/form-elements/Input";
+import { Button } from "@components/common/form-elements/Button";
+import { ButtonTypes } from "@components/common/form-elements/types";
+import { useLogin } from "@hooks/settings.hooks";
+import { useNotification } from "@providers/common/NotificationProvider";
 import { AxiosError } from "axios";
-import { NotificationType } from "../../../components/common/notification/Notification";
+import { NotificationType } from "@components/common/notification/Notification";
 import { useRouter } from "next/router";
 
 const Login: NextPage = () => {

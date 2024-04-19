@@ -1,12 +1,12 @@
 import { NextPage } from "next";
-import { PageWrapper } from "../../../components/admin/common/PageWrapper";
+import { PageWrapper } from "@admin-common-components/PageWrapper";
 import { useForm } from "react-hook-form";
-import { Input } from "../../../components/common/form-elements/Input";
-import { Button } from "../../../components/common/form-elements/Button";
-import { ButtonTypes } from "../../../components/common/form-elements/types";
-import { useChangePassword } from "../../../hooks/settings.hooks";
-import { useNotification } from "../../../providers/common/NotificationProvider";
-import { NotificationType } from "../../../components/common/notification/Notification";
+import { Input } from "@components/common/form-elements/Input";
+import { Button } from "@components/common/form-elements/Button";
+import { ButtonTypes } from "@components/common/form-elements/types";
+import { useChangePassword } from "@hooks/settings.hooks";
+import { useNotification } from "@providers/common/NotificationProvider";
+import { NotificationType } from "@components/common/notification/Notification";
 import { AxiosError } from "axios";
 
 interface FormState {

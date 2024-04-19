@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
-import { useDeleteUser, useGetUsers } from "../../../hooks/users.hooks";
-import { useNotification } from "../../../providers/common/NotificationProvider";
-import { NotificationType } from "../../common/notification/Notification";
+import { useDeleteUser, useGetUsers } from "@hooks/users.hooks";
+import { useNotification } from "@providers/common/NotificationProvider";
+import { NotificationType } from "@common-components/notification/Notification";
 import { Trash } from "phosphor-react";
 
 export const List = () => {

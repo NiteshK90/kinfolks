@@ -1,13 +1,13 @@
 // NewLocationForm.tsx with Tailwind CSS
 import React from "react";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
-import { Locations } from "../../../services/locations.service/types";
-import { Input } from "../../common/form-elements/Input";
-import { Button } from "../../common/form-elements/Button";
-import { ButtonTypes } from "../../common/form-elements/types";
-import { useCreateLocationWithPlaces } from "../../../hooks/locations.hooks";
-import { useNotification } from "../../../providers/common/NotificationProvider";
-import { NotificationType } from "../../common/notification/Notification";
+import { Locations } from "@services/locations.service/types";
+import { Input } from "@common-components/form-elements/Input";
+import { Button } from "@common-components/form-elements/Button";
+import { ButtonTypes } from "@common-components/form-elements/types";
+import { useCreateLocationWithPlaces } from "@hooks/locations.hooks";
+import { useNotification } from "@providers/common/NotificationProvider";
+import { NotificationType } from "@common-components/notification/Notification";
 import { AxiosError } from "axios";
 
 export const NewLocationForm: React.FC = () => {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { Navbar } from "./Navbar";
+import { Navbar } from "@admin-common-components/Navbar";
 
 export const PageWrapper = ({
   title,

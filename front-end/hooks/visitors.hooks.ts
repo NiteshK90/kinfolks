@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "react-query";
-import visitorsService from "../services/visitors.service";
-import { Visitor } from "../services/visitors.service/types";
+import visitorsService from "@services/visitors.service";
+import { Visitor } from "@services/visitors.service/types";
 
 export const useGetVisitors = () => {
   return useQuery([], async () => {

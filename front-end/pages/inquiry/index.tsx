@@ -1,11 +1,11 @@
 import { NextPage } from "next";
 import { Controller, useForm } from "react-hook-form";
-import { useCreateVisitor } from "../../hooks/visitors.hooks";
-import { Button } from "../../components/common/form-elements/Button";
-import { ButtonTypes } from "../../components/common/form-elements/types";
-import { Input } from "../../components/common/form-elements/Input";
-import { useNotification } from "../../providers/common/NotificationProvider";
-import { NotificationType } from "../../components/common/notification/Notification";
+import { useCreateVisitor } from "@hooks/visitors.hooks";
+import { Button } from "@components/common/form-elements/Button";
+import { ButtonTypes } from "@components/common/form-elements/types";
+import { Input } from "@components/common/form-elements/Input";
+import { useNotification } from "@providers/common/NotificationProvider";
+import { NotificationType } from "@components/common/notification/Notification";
 import Select from "react-select";
 import { PlacesOptions } from "./constants";
 import { CreateVisitorProps } from "./type";
