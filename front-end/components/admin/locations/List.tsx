@@ -52,7 +52,7 @@ export const List = () => {
               <Button
                 type={ButtonTypes.Button}
                 buttonText="Edit"
-                onClick={() => toggleExpand(location.id!)}
+                onClick={() => {}}
               />
             </div>
           </div>
