@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useGetLocations } from "@hooks/locations.hooks";
 import { Locations } from "@services/locations.service/types";
+import { Button } from "@components/common/form-elements/Button";
+import { ButtonTypes } from "@components/common/form-elements/types";
 
 export const Row = ({ location }: { location: Locations }) => {};
 
@@ -42,12 +44,11 @@ export const List = () => {
           <div className="flex justify-between items-center">
             <span className="text-lg font-semibold">{location.name}</span>
             <span>
-              <button
+              <Button
+                type={ButtonTypes.Link}
+                buttonText="View more"
                 onClick={() => toggleExpand(location.id!)}
-                className="text-blue-500 hover:text-blue-600"
-              >
-                View More
-              </button>
+              />
             </span>
           </div>
           <div className="text-gray-600">

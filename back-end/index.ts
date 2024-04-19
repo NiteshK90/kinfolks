@@ -1,9 +1,9 @@
 import express, { Express } from "express";
 import cors from "cors";
-import visitorsRoutes from "@routes/Visitors";
-import usersRoutes from "@routes/Users";
-import adminRoutes from "@routes/Admin";
-import locationRoutes from "@routes/Locations";
+import visitorsRoutes from "./src/routes/Visitors";
+import usersRoutes from "./src/routes/Users";
+import adminRoutes from "./src/routes/Admin";
+import locationRoutes from "./src/routes/Locations";
 
 const app: Express = express();
 const port = 8000;

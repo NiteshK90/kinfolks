@@ -1,5 +1,5 @@
 import express from "express";
-import { login, updatePassword } from "@controllers/Admin";
+import { login, updatePassword } from "../controllers/Admin";
 
 const router = express.Router();
 
