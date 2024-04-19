@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import { PageWrapper } from "@admin-common-components/PageWrapper";
-import { List } from "@components/admin/users/list";
+import { PageWrapper } from "@common-components-admin/PageWrapper";
+import { List } from "@components-admin/users/list";
 
 const Visitors: NextPage = () => {
   return (

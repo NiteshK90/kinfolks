@@ -1,10 +1,10 @@
 import { NextPage } from "next";
-import { PageWrapper } from "@admin-common-components/PageWrapper";
+import { PageWrapper } from "@common-components-admin/PageWrapper";
 import { Button } from "@components/common/form-elements/Button";
 import { ButtonTypes } from "@components/common/form-elements/types";
 import { useState } from "react";
-import { NewLocationForm } from "@components/admin/locations/CreateForm";
-import { List } from "@components/admin/locations/List";
+import { NewLocationForm } from "@components-admin/locations/CreateForm";
+import { List } from "@components-admin/locations/List";
 
 const Locations: NextPage = () => {
   const [newLocation, setNewLocation] = useState<boolean>(false);

@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { PageWrapper } from "@admin-common-components/PageWrapper";
+import { PageWrapper } from "@common-components-admin/PageWrapper";
 
 const Dashboard: NextPage = () => {
   return (

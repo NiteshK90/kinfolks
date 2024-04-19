@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { PageWrapper } from "@admin-common-components/PageWrapper";
+import { PageWrapper } from "@common-components-admin/PageWrapper";
 import { useForm } from "react-hook-form";
 import { Input } from "@components/common/form-elements/Input";
 import { Button } from "@components/common/form-elements/Button";

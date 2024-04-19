@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "react-query";
-import "../styles/globals.css";
+import "@styles/globals.css";
 import { NotificationProvider } from "@providers/common/NotificationProvider";
 
 const queryClient = new QueryClient();

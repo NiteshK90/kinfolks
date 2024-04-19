@@ -1,4 +1,4 @@
-import apiInstance from "../axios";
+import apiInstance from "@services/axios";
 import { ChagePasswordProps, LoginResponse, LoginType } from "./types";
 
 class SettingsService {

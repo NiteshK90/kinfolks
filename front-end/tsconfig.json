@@ -17,12 +17,15 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["components/*"],
-      "@admin-common-components/*": ["components/admin/common/*"],
+      "@components-admin/*": ["components/admin/*"],
       "@common-components/*": ["components/common/*"],
+      "@common-components-admin/*": ["components/admin/common/*"],
       "@hooks/*": ["hooks/*"],
+      "@interfaces/*": ["interfaces/*"],
       "@services/*": ["services/*"],
       "@providers/*": ["providers/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

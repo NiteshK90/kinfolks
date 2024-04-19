@@ -1,4 +1,4 @@
-import apiInstance from "../axios";
+import apiInstance from "@services/axios";
 import { Locations } from "./types";
 
 class LocationService {
