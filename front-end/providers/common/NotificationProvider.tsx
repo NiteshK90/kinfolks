@@ -2,7 +2,7 @@ import React, { Children, createContext, useContext, useState } from "react";
 import {
   Notification,
   NotificationType,
-} from "../../components/common/notification/Notification";
+} from "@components/common/notification/Notification";
 
 export interface Notification {
   content: string;

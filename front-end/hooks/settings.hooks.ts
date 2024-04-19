@@ -1,9 +1,9 @@
 import { useMutation } from "react-query";
-import settingsService from "../services/settings.service";
+import settingsService from "@services/settings.service";
 import {
   ChagePasswordProps,
   LoginType,
-} from "../services/settings.service/types";
+} from "@services/settings.service/types";
 
 export const useChangePassword = () => {
   return useMutation((values: ChagePasswordProps) =>

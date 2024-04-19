@@ -1,5 +1,5 @@
 import { GroupBase, OptionsOrGroups } from "react-select";
-import { Option } from "../../components/common/form-elements/types";
+import { Option } from "@components/common/form-elements/types";
 
 export const PlacesOptions: OptionsOrGroups<Option, GroupBase<Option>> = [
   {

@@ -10,6 +10,9 @@ export const Navbar = () => {
         <Link href="users">Users</Link>
       </div>
       <div className="pb-4">
+        <Link href="locations">Locations</Link>
+      </div>
+      <div className="pb-4">
         <Link href="settings">Settings</Link>
       </div>
     </div>

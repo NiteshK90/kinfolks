@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const Visitors_1 = __importDefault(require("./src/routes/Visitors"));
 const Users_1 = __importDefault(require("./src/routes/Users"));
 const Admin_1 = __importDefault(require("./src/routes/Admin"));
+const Locations_1 = __importDefault(require("./src/routes/Locations"));
 const app = (0, express_1.default)();
 const port = 8000;
 app.use(express_1.default.json());
@@ -16,6 +17,7 @@ app.use((0, cors_1.default)());
 app.use("/visitors", Visitors_1.default);
 app.use("/users", Users_1.default);
 app.use("/admin", Admin_1.default);
+app.use("/locations", Locations_1.default);
 // Connection
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
