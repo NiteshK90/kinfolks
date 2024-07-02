@@ -17,6 +17,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const client_1 = require("@prisma/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma = new client_1.PrismaClient();
+const secretKey = process.env.JWT_SECRET;
 const updatePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id, password } = req.body;
     const salt = yield bcrypt_1.default.genSalt(10);
@@ -41,7 +42,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!isValid) {
         return res.status(500).json({ message: "Wrong username or password" });
     }
-    const token = jsonwebtoken_1.default.sign({ userId: user.id }, "your_secret_key", {
+    const token = jsonwebtoken_1.default.sign({ userId: user.id }, secretKey || "", {
         expiresIn: "1h",
     });
     res.status(201).json({ message: "Login successful", token: token });
