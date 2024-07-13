@@ -9,30 +9,80 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: mydatabase
+          POSTGRES_USER: myuser
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      # Backend steps
+      - name: Set up Node.js for backend
         uses: actions/setup-node@v2
         with:
           node-version: "16"
+        working-directory: ./back-end
 
-      - name: Install dependencies
+      - name: Install dependencies for backend
         run: npm install
+        working-directory: ./back-end
 
-      - name: Run tests
+      - name: Set up PostgreSQL connection
+        run: |
+          sudo apt-get install postgresql-client
+          psql -h localhost -U myuser -d mydatabase -c "SELECT 1"
+
+      - name: Run migrations (if applicable)
+        run: npm run migrate
+        working-directory: ./back-end
+
+      - name: Run tests for backend
         run: npm run test
+        working-directory: ./back-end
 
-      - name: Build project
+      - name: Build backend
         run: npm run build
+        working-directory: ./back-end
+
+      - name: Deploy backend
+        run: |
+          npm install -g heroku
+          heroku login --interactive
+          git push heroku main
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+      # Frontend steps
+      - name: Set up Node.js for frontend
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+        working-directory: ./front-end
+
+      - name: Install dependencies for frontend
+        run: npm install
+        working-directory: ./front-end
+
+      - name: Run tests for frontend
+        run: npm run test
+        working-directory: ./front-end
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./front-end
 
       - name: Deploy to Vercel
         run: |
           npm install -g vercel
-          vercel --prod
+          vercel --prod --cwd ./front-end
         env:
           VERCEL_TOKEN: "nT3f3nquGr3KZjhWXBHpCwdx"
